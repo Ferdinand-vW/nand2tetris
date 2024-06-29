@@ -1,0 +1,31 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux8Way.hdl
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    DMux4Way(in=in, sel=sel[0..1], a=tmpa, b=tmpb, c=tmpc, d=tmpd);
+    DMux4Way(in=in, sel=sel[0..1], a=tmpe, b=tmpf, c=tmpg, d=tmph);
+    Or(a=tmpa, b=tmpe, out=aOre);
+    DMux(in=aOre, sel=sel[2], a=a, b=e);
+    Or(a=tmpb, b=tmpf, out=bOrf);
+    DMux(in=bOrf, sel=sel[2], a=b, b=f);
+    Or(a=tmpc, b=tmpg, out=cOrg);
+    DMux(in=cOrg, sel=sel[2], a=c, b=g);
+    Or(a=tmpd, b=tmph, out=dOrh);
+    DMux(in=dOrh, sel=sel[2], a=d, b=h);
+}
