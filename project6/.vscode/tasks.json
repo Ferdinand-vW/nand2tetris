@@ -1,0 +1,10 @@
+{  
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "reset",
+            "command": "bash -c ; rm -rf ${workspaceFolder}/build ; mkdir build"
+        },
+    ],
+    "version": "2.0.0"
+}
